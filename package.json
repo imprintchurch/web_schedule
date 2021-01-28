@@ -1,0 +1,25 @@
+{
+  "name": "web_schedule",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node -r esm build.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imprintchurch/web_schedule.git"
+  },
+  "keywords": [],
+  "author": "Danny Lindquist",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imprintchurch/web_schedule/issues"
+  },
+  "homepage": "https://github.com/imprintchurch/web_schedule#readme",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "node-ical": "^0.12.8"
+  }
+}
