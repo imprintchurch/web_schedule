@@ -26,6 +26,28 @@ function serve() {
   };
 }
 
+function consts(consts) {
+  const moduleStart = 'consts:';
+  return {
+    name: 'consts-plugin',
+    resolveId(id) {
+      if (!id.startsWith(moduleStart)) return;
+      return id;
+    },
+    load(id) {
+      if (!id.startsWith(moduleStart)) return;
+      const key = id.slice(moduleStart.length);
+
+      if (!(key in consts)) {
+        this.error(`Cannot find const: ${key}`);
+        return;
+      }
+
+      return `export default ${JSON.stringify(consts[key])}`;
+    },
+  };
+}
+
 /** @type { import('rollup').RollupOptions} */
 const client = {
   input: 'src/calendar.svelte',
@@ -35,6 +57,9 @@ const client = {
     sourcemap: !prod,
   },
   plugins: [
+    consts({
+      hostLocation: prod ? 'https://imprintchurch.github.io/web_schedule' : '',
+    }),
     svelte({
       compilerOptions: {
         dev: !prod,
