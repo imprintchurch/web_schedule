@@ -4,10 +4,11 @@
 
   let date = new Date();
   const cal = calendarize(date);
+  const origin = process.env.HOST_LOCATION || '';
 
   let data;
   onMount(async () => {
-    let res = await fetch('/12021.json');
+    let res = await fetch(origin + '/12021.json');
     let json = await res.json();
     data = json.reduce((agg, val) => {
       let key = new Date(val.start).toString().split(' ').slice(2)[0];
