@@ -69,8 +69,7 @@
     margin: 10px 0 0 0;
   }
   .cal {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, sans-serif;
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
@@ -82,11 +81,12 @@
     list-style: none;
   }
   thead th {
-    background-color: #a9a9a9;
+    background-color: var(--cal-header-background, #a9a9a9);
     text-transform: uppercase;
     font-weight: 700;
     font-size: 0.78rem;
     padding: 8px 6px;
+    text-align: center;
   }
   table {
     border-collapse: collapse;
