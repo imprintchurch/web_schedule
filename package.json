@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node -r esm build.js",
+    "build": "node -r esm build.js && rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv build --cors",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +21,16 @@
   },
   "homepage": "https://github.com/imprintchurch/web_schedule#readme",
   "dependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.1.0",
+    "@rollup/plugin-run": "^2.0.2",
+    "calendarize": "^1.1.1",
     "esm": "^3.2.25",
-    "node-ical": "^0.12.8"
+    "node-ical": "^0.12.8",
+    "rollup": "^2.38.0",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sirv-cli": "^1.0.10",
+    "svelte": "^3.32.0"
   }
 }
