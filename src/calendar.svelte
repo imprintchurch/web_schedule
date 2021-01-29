@@ -1,30 +1,56 @@
 <script>
   import calendarize from 'calendarize';
-  import { onMount } from 'svelte';
+  import { fade } from 'svelte/transition';
   import hostLocation from 'consts:hostLocation';
 
   let date = new Date();
-  const cal = calendarize(date);
+  let selection = date
+    .toLocaleDateString('default', { month: 'numeric', year: 'numeric' })
+    .replace('/', '');
+  let cal = calendarize(date);
+  let data = {};
 
-  let data;
-  onMount(async () => {
-    let res = await fetch(hostLocation + '/12021.json');
-    let json = await res.json();
-    data = json.reduce((agg, val) => {
-      let key = new Date(val.start).toString().split(' ').slice(2)[0];
-      console.log(key);
-      if (agg[key]) {
-        agg[key].push(val);
-      } else {
-        agg[key] = [val];
-      }
-      return agg;
-    }, {});
-  });
+  $: {
+    let d = /(?<month>\d+)(?<year>\d{4})/g.exec(selection);
+    date = new Date(+d.groups.year, +d.groups.month - 1, 1);
+    loadMonthData().then(() => {
+      cal = calendarize(date);
+    });
+  }
+
+  async function loadMonthData() {
+    let res = await fetch(hostLocation + `/${selection}.json`);
+    if (res.ok) {
+      let json = await res.json();
+      data = json.reduce((agg, val) => {
+        let key = new Date(val.start).toString().split(' ').slice(2)[0];
+        console.log(key);
+        if (agg[key]) {
+          agg[key].push(val);
+        } else {
+          agg[key] = [val];
+        }
+        return agg;
+      }, {});
+    }
+  }
 </script>
 
 <div class="cal">
-  <h2>{date.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
+  <div class="cal-head">
+    <h3>
+      {date.toLocaleString('default', { month: 'long', year: 'numeric' })}
+    </h3>
+    <select bind:value={selection} name="month" id="month-select">
+      <option value="12021">January 2021</option>
+      <option value="22021">February 2021</option>
+      <option value="32021">March 2021</option>
+      <option value="42021">April 2021</option>
+      <option value="52021">May 2021</option>
+      <option value="62021">June 2021</option>
+      <option value="72021">July 2021</option>
+    </select>
+  </div>
   <table style="">
     <thead>
       <th>Sunday</th>
@@ -42,7 +68,7 @@
             <td>
               <div class="date-number">{day != 0 ? day : ''}</div>
               <ul>
-                {#each data[day] || [] as event}
+                {#each data[day] || [] as event (event.uid)}
                   <li>
                     <span class="time"
                       >{new Date(event.start).toLocaleTimeString('default', {
@@ -65,15 +91,20 @@
 </div>
 
 <style>
-  h2 {
-    margin: 10px 0 0 0;
+  h3 {
+    margin: 0 0 0 0;
+    flex: 1;
+  }
+  .cal-head {
+    display: flex;
+    align-items: center;
   }
   .cal {
     --border-color: #d1d5db;
     font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, sans-serif;
     max-width: 1200px;
     width: 100%;
-    margin: 0 auto;
+    margin: 12px auto;
   }
   .time {
     display: block;
@@ -95,6 +126,7 @@
   table {
     border-collapse: collapse;
     background-color: var(--cal-table-background, #f7f7f7);
+    width: 100%;
   }
   .cal th {
     width: 14.2857%;
