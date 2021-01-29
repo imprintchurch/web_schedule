@@ -93,7 +93,7 @@
 
 <style>
   h3 {
-    margin: 0 0 0 0;
+    margin: 12px 0;
     flex: 1;
   }
   .cal-head {
