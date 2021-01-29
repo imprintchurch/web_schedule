@@ -69,6 +69,7 @@
     margin: 10px 0 0 0;
   }
   .cal {
+    --border-color: #d1d5db;
     font-family: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, sans-serif;
     max-width: 1200px;
     width: 100%;
@@ -76,6 +77,7 @@
   }
   .time {
     display: block;
+    font-weight: 600;
   }
   ul {
     list-style: none;
@@ -87,10 +89,12 @@
     font-size: 0.78rem;
     padding: 8px 6px;
     text-align: center;
+    border: 1px solid var(--border-color);
   }
+
   table {
     border-collapse: collapse;
-    background-color: #f7f7f7;
+    background-color: var(--cal-table-background, #f7f7f7);
   }
   .cal th {
     width: 14.2857%;
@@ -100,9 +104,11 @@
     vertical-align: top;
     padding: 6px;
   }
-  td + td {
-    border-left: 1px solid rgba(0, 0, 0, 0.12);
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  td {
+    border-left: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
   }
   td ul {
     padding: 0;
@@ -111,8 +117,15 @@
 
   li + li {
     margin-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-top: 12px;
+  }
+  li {
+    line-height: 1.5;
   }
   .date-number {
     font-weight: 700;
+    font-size: 0.8rem;
+    color: #374151;
   }
 </style>

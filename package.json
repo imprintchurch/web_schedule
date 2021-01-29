@@ -6,7 +6,7 @@
   "scripts": {
     "build": "node -r esm build.js && rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv build --cors",
+    "start": "sirv build --dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
