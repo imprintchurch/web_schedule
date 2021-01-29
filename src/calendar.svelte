@@ -19,12 +19,12 @@
   }
 
   async function loadMonthData() {
+    console.log(selection);
     let res = await fetch(hostLocation + `/${selection}.json`);
     if (res.ok) {
       let json = await res.json();
       data = json.reduce((agg, val) => {
-        let key = new Date(val.start).toString().split(' ').slice(2)[0];
-        console.log(key);
+        let key = +new Date(val.start).toString().split(' ').slice(2)[0];
         if (agg[key]) {
           agg[key].push(val);
         } else {
@@ -32,6 +32,7 @@
         }
         return agg;
       }, {});
+      console.log(data);
     }
   }
 </script>

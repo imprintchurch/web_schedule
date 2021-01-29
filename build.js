@@ -28,6 +28,7 @@ async function main() {
   for (const entry of Object.entries(grouped)) {
     await fsp.writeFile(`./build/${entry[0]}.json`, JSON.stringify(entry[1]));
   }
+  await fsp.copyFile('./index.html', './build/index.html');
 }
 
 main().catch((err) => {
