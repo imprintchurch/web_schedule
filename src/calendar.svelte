@@ -10,6 +10,8 @@
   let cal = calendarize(date);
   let data = {};
 
+  console.log(import.meta);
+
   $: {
     let d = /(?<month>\d+)(?<year>\d{4})/g.exec(selection);
     date = new Date(+d.groups.year, +d.groups.month - 1, 1);
