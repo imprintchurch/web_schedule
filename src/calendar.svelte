@@ -10,7 +10,7 @@
   let cal = calendarize(date);
   let data = {};
 
-  console.log(import.meta);
+  console.log(new URL(import.meta.url).origin);
 
   $: {
     let d = /(?<month>\d+)(?<year>\d{4})/g.exec(selection);
