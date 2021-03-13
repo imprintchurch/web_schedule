@@ -9,7 +9,8 @@
     .replace('/', '');
   let cal = calendarize(date);
   let data = {};
-
+  let today = new Date();
+  let clientWidth;
   console.log(new URL(import.meta.url).origin);
 
   $: {
@@ -39,7 +40,8 @@
   }
 </script>
 
-<div class="cal">
+<div class="cal" bind:clientWidth>
+  {clientWidth}
   <div class="cal-head">
     <h3>
       {date.toLocaleString('default', { month: 'long', year: 'numeric' })}
@@ -55,7 +57,7 @@
     </select>
   </div>
   <table style="">
-    <thead>
+    <thead class="header-row">
       <th>Sunday</th>
       <th>Monday</th>
       <th>Tuesday</th>
@@ -68,8 +70,24 @@
       {#each cal as week}
         <tr>
           {#each week as day}
-            <td>
-              <div class="date-number">{day != 0 ? day : ''}</div>
+            <td
+              data-empty={(data[day] || []).length == 0}
+              data-past={day < today.getDate()}
+            >
+              <div class="date-number">
+                <span class="phone-only">
+                  {new Date(
+                    date.getFullYear(),
+                    date.getMonth(),
+                    day,
+                  ).toLocaleDateString('default', {
+                    month: 'long',
+                    weekday: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+                <span class="desktop">{day != 0 ? day : ''}</span>
+              </div>
               <ul>
                 {#each data[day] || [] as event (event.uid)}
                   <li>
@@ -81,6 +99,9 @@
                     >
                     <span>
                       {event.summary}
+                    </span>
+                    <span class="event-description">
+                      {event.description}
                     </span>
                   </li>
                 {/each}
@@ -162,5 +183,56 @@
     font-weight: 700;
     font-size: 0.8rem;
     color: #374151;
+  }
+  .date-number > .phone-only {
+    display: none;
+  }
+  .event-description {
+    display: none;
+  }
+  @media screen and (max-width: 750px) {
+    .date-number {
+      font-size: 1.125rem;
+      display: block;
+      padding: 4px 0px;
+      background: rgba(0, 0, 0, 0.12);
+    }
+    .header-row {
+      display: none;
+    }
+    td {
+      display: block;
+    }
+    td[data-empty='true'] {
+      display: none;
+    }
+    td ul {
+      padding: 0;
+      min-height: 0;
+    }
+    .time {
+      display: block;
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+    .date-number > .phone-only {
+      display: inline;
+    }
+    .date-number > .desktop {
+      display: none;
+    }
+    li + li {
+      border-top: none;
+      padding-top: 10px;
+    }
+    td {
+      border: none;
+    }
+    [data-past='true'] {
+      display: none;
+    }
+    .event-description {
+      display: block;
+    }
   }
 </style>
